@@ -1,0 +1,4 @@
+pytest
+pytest-cov
+prance
+openapi_spec_validator

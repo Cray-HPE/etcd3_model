@@ -1,0 +1,54 @@
+# .coveragerc to control coverage.py
+
+[report]
+    # Regexes for lines to exclude from consideration.  These are
+    # broken out so that it is clear why we are omitting each category
+    # of code from coverage.  Some of these could be removed with
+    # effort but are probably not cost effective to remove, the rest
+    # indicate cases that are not in any way coverage deficiencies.
+    #
+    # Here is what the pragmas  mean:
+    #
+    #    no cover
+    #
+    #       This represents an end condition that is too difficult to
+    #       hit without explicit error injection.  These might be
+    #       reachable if we could figure out a way to use mocking to
+    #       inject the appropriate error.
+    #
+    #    no unit test
+    #
+    #       Code that is not covered by unit testing because it cannot
+    #       execute in a stand-alone environment.  To get good
+    #       coverage for integration tests, take this out of the
+    #       coverage config when running in a production mode.
+    #
+    #    unit test safety
+    #
+    #        Code that is built into a unit test to handle unexpected
+    #        failure cases and report them appropriately.  Not
+    #        expected to run except in rare failure end-cases.  Not
+    #        reasonable to expect coverage in a successful test run.
+    #
+    #    unit test support
+    #
+    #        Supporting code for unit testing, not part of the service
+    #        functionality or the happy path test code.  Coverage here
+    #        does nothing to improve service reliability.
+    #
+    #    unit test failure
+    #
+    #        Specific code in the unit tests themselves that only
+    #        executes in the case of unit test failure, so it does not
+    #        contribute to coverage when a unit test runs
+    #        successfully.  Not reasonable to expect coverage in a
+    #        sucessful test run.
+    exclude_lines =
+        pragma no cover
+        pragma should never happen
+        pragma abstract method
+        pragma no unit test
+        pragma unit test safety
+        pragma unit test support
+        pragma unit test failure
+        if 0:
