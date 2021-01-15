@@ -49,6 +49,26 @@ pipeline {
     }
 
     stages {
+        stage('Push to github') {
+            when { allOf {
+                expression { BRANCH_NAME ==~ /.*/ }
+            }}
+            steps {
+                container('etcd3-model-python-pod') {
+                    sh """
+                        apk add --no-cache bash curl jq git openssl
+                    """
+                    script {
+                        pushToGithub(
+                            githubRepo: "Cray-HPE/etcd3_model",
+                            pemSecretId: "githubapp-stash-sync",
+                            githubAppId: "91129",
+                            githubAppInstallationId: "13313749"
+                        )
+                    }
+                }
+            }
+        }
         stage('Unit Tests') {
             steps {
                 container('etcd3-model-python-pod') {
