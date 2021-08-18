@@ -1,4 +1,4 @@
-"""Version Information for Compute Rolling Upgrade
+"""Print Version Information for Compute Rolling Upgrade
 
 MIT License
 
@@ -22,4 +22,11 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
-VERSION = "1.1.2"
+
+# This code is here to support builds.  It is not incorporated into
+# the python module in any meaningful way.
+import sys  # pragma no cover
+from version import VERSION  # pragma no cover
+
+print(VERSION)  # pragma no cover
+sys.exit(0)  # pragma no cover
