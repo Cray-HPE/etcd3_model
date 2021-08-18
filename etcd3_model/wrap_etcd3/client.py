@@ -197,8 +197,8 @@ class Etcd3Client:
         self.watches = {}
 
         # Pick up any settings that came in as keyword args
-        for attr in kwargs:
-            setattr(self, attr, kwargs[attr])
+        for attr,value in kwargs.items():
+            setattr(self, attr, value)
 
     def __check_watch(self, key, event):
         """Check for and generate a watch callback if 'key' is found to be in
@@ -211,8 +211,8 @@ class Etcd3Client:
         """
         callback = None
         with self.thread_lock:
-            for watch_id in self.watches:
-                begin, end, callback = self.watches[watch_id]
+            for _,watch in self.watches.items():
+                begin, end, callback = watch
                 if begin <= key < end:
                     break
                 callback = None
@@ -239,7 +239,7 @@ class Etcd3Client:
             # release the lock.  Instead we have to lock for each
             # iteration.  This prevents the keystore from changing
             # while we check for and grab data from a key.
-            self.thread_lock.acquire()
+            self.thread_lock.acquire()  # pylint: disable=consider-using-with
 
             # Need to re-check each time because a key might have been
             # deleted since the previous iteration.

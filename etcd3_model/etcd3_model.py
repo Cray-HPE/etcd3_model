@@ -488,8 +488,7 @@ class Etcd3Model(Lockable):
         """
         ret = None
         attrs = self._get_instance_attrs()
-        for attr in attrs:
-            spec = attrs[attr]
+        for attr,spec in attrs.items():
             if spec.is_object_id:
                 if ret is not None:
                     # pylint: disable=invalid-name
@@ -529,27 +528,26 @@ class Etcd3Model(Lockable):
         # Pick up any dictionary arguments provided with the call and
         # absorb any key / value pairs found there.
         for arg_dict in args:
-            for attr in arg_dict:
+            for attr,value in arg_dict.items():
                 # Only take key / value pairs that are recognized,
                 # drop others silently.
                 if attr in attr_specs:
-                    setattr(self, attr, arg_dict[attr])
+                    setattr(self, attr, value)
 
         # Pick up any settings that came in as keyword args
-        for attr in kwargs:
+        for attr,value in kwargs.items():
             # Only take key / value pairs that are recognized,
             # drop others silently.
             if attr in attr_specs:
-                setattr(self, attr, kwargs[attr])
+                setattr(self, attr, value)
 
         # Now run through the list of instance attributes and create
         # any that were not specified in the call.  This will also
         # take care of setting the Object ID if no Object ID attribute
         # was specified in the call, since one of the instance
         # attributes has to be the Object ID.
-        for attr in attr_specs:
+        for attr,spec in attr_specs.items():
             if attr not in self.__dict__:
-                spec = attr_specs[attr]
                 setattr(self, attr, spec.get_default_value())
 
         # Set up the locking for the instance, now that we know the
@@ -618,9 +616,9 @@ class Etcd3Model(Lockable):
         # built on this model without having to persist run-time data.
         put_dict = {}
         attr_specs = self._get_instance_attrs()
-        for attr in self.__dict__:
+        for attr,spec in self.__dict__.items():
             if attr in attr_specs:
-                put_dict[attr] = self.__dict__[attr]
+                put_dict[attr] = spec
         json_string = json.dumps(put_dict)
         etcd.put(key, json_string)
 

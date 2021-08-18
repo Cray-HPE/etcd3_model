@@ -25,11 +25,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 # This code is here to support builds.  It is not incorporated into
 # the python module in any meaningful way.
+import sys  # pragma no cover
+from version import VERSION  # pragma no cover
 
-# pragma should never happen
-from version import VERSION
-
-# pragma should never happen
-print(VERSION)
-# pragma should never happen
-exit(0)
+print(VERSION)  # pragma no cover
+sys.exit(0)  # pragma no cover
