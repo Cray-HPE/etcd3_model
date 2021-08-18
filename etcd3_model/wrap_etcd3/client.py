@@ -197,7 +197,7 @@ class Etcd3Client:
         self.watches = {}
 
         # Pick up any settings that came in as keyword args
-        for attr,value in kwargs.items():
+        for attr, value in kwargs.items():
             setattr(self, attr, value)
 
     def __check_watch(self, key, event):
@@ -211,7 +211,7 @@ class Etcd3Client:
         """
         callback = None
         with self.thread_lock:
-            for _,watch in self.watches.items():
+            for _, watch in self.watches.items():
                 begin, end, callback = watch
                 if begin <= key < end:
                     break
