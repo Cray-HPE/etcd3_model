@@ -56,7 +56,9 @@ disable=
     attribute-defined-outside-init,
     too-few-public-methods,
     no-init,
-    no-self-use
+    no-self-use,
+    consider-using-f-string,
+    no-member
 
 
 [REPORTS]
